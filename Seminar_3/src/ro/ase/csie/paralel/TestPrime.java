@@ -31,7 +31,7 @@ public class TestPrime {
 		int nrPrime = 0;
 		
 		long tStart = System.currentTimeMillis();
-		nrPrime = (int) contorNumerePrime(0, LIMITA_SUP);
+		//nrPrime = (int) contorNumerePrime(0, LIMITA_SUP);
 		long tFinal = System.currentTimeMillis();
 		
 		System.out.println(
@@ -56,7 +56,7 @@ public class TestPrime {
 				limitaSuperioara = LIMITA_SUP;
 			
 			threaduri[i] = new ThreadPrime(limitaInferioara, 
-					limitaSuperioara, contor2);
+					limitaSuperioara, contor2, i);
 			
 		}
 		
@@ -76,8 +76,15 @@ public class TestPrime {
 		tFinal = System.currentTimeMillis();
 		
 		System.out.println(
-				String.format("Rezultat paralel = %d in %d secunde", 
-						contor2.getValoare(), (tFinal- tStart)/1000));
+				String.format("Rezultat paralel = %d in %d ms", 
+						contor2.getValoare(), (tFinal- tStart)));
+		System.out.println("Afisare durate thread-uri");
+		
+		for(Thread t : threaduri) {
+			ThreadPrime tp = (ThreadPrime) t;
+			System.out.println(String.format("T%d = %d ml", tp.id, tp.durata));
+		}
+		
 		
 		// solutia 2
 		// distribuim verificarea fiecarui numar pe cate un thread
@@ -112,8 +119,8 @@ public class TestPrime {
 		contor2.valoare = 0;
 		
 		threaduri = new Thread[nrCoreuri];
-		for(int i = 0 ;i < nrCoreuri; i+=1) {
-			threaduri[i] = new ThreadPrime2(i, LIMITA_SUP, contor2, nrCoreuri);
+		for(int i = 1, j = 0 ;i < nrCoreuri*2; i+=2, j++) {
+			threaduri[j] = new ThreadPrime2(i, LIMITA_SUP, contor2, nrCoreuri*2, j);
 		}
 		
 		tStart = System.currentTimeMillis();
@@ -132,8 +139,13 @@ public class TestPrime {
 		tFinal = System.currentTimeMillis();
 		
 		System.out.println(
-				String.format("Rezultat paralel 3 = %d in %d secunde", 
-						contor2.getValoare(), (tFinal- tStart)/1000));
+				String.format("Rezultat paralel 3 = %d in %d ms", 
+						contor2.getValoare(), (tFinal- tStart)));
+		for(Thread t : threaduri) {
+			ThreadPrime2 tp = (ThreadPrime2) t;
+			System.out.println(String.format("T%d = %d ml cu %d numere verificate", 
+					tp.id, tp.durata, tp.nrVerificate));
+		}
 		
 	}
 

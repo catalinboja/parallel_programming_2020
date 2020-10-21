@@ -5,19 +5,25 @@ public class ThreadPrime2 extends Thread{
 	long limitaSuperioara;
 	Contor contor;
 	int nextI;
+	int id;
+	long durata;
+	int nrVerificate = 0;
 	
 	public ThreadPrime2(long limitaInferioara, long limitaSuperioara, 
-			Contor contor, int nextI) {
+			Contor contor, int nextI, int id) {
 		this.limitaInferioara = limitaInferioara;
 		this.limitaSuperioara = limitaSuperioara;
 		this.contor = contor;
 		this.nextI = nextI;
+		this.id = id;
 	}
 
 	@Override
 	public void run() {
-		
+		long ts = System.currentTimeMillis();
 		for(long i = limitaInferioara; i <= limitaSuperioara; i+= nextI) {
+			
+			nrVerificate += 1;
 			
 			boolean estePrim = true;
 			
@@ -31,6 +37,8 @@ public class ThreadPrime2 extends Thread{
 			if(estePrim)
 				contor.increment();
 		}
+		long tf = System.currentTimeMillis();
+		this.durata = (tf - ts);
 	}
 	
 }
