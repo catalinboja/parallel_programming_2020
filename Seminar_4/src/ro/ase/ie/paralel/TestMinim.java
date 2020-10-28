@@ -4,6 +4,33 @@ package ro.ase.ie.paralel;
 import java.util.Random;
 
 public class TestMinim {
+	
+	//metoda ce trebuie folosita pentru a compara 2 valori
+	static boolean esteMaiMic(int a, int b) {
+		int rez = 0;
+
+		for(int i = 0 ; i< 1500; i++) {
+			float temp = (float)a/i;
+			rez += (int) temp;
+		}
+		
+		for(int i = 0 ; i< 1500; i++) {
+			float temp = (float)a/i;
+			rez += (int) temp;
+		}
+		
+		return (a <= b);
+	}
+	
+	static int getMinim(int[] valori) {
+		int minim = valori[0];
+		for(int valoare : valori) {
+			if(esteMaiMic(valoare, minim)) {
+				minim = valoare;
+			}
+		}
+		return minim;
+	}
 
 	public static void main(String[] args) {
 		
@@ -26,7 +53,14 @@ public class TestMinim {
 		//benchmark solutie paralela cu minime locale pe intervale - 4 core-uri
 		//benchmark solutie paralela cu o alta abordare
 		
+		long tStart = System.currentTimeMillis();
 		
+		getMinim(valori);
+		
+		long tFinal = System.currentTimeMillis();
+		
+		System.out.println("Durata " + (tFinal- tStart));
+			
 	}
 
 }
