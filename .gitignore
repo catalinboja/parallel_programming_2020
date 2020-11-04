@@ -358,3 +358,8 @@ bin/
 .project
 *.class
 
+# Visual Studio
+*.sln
+*.vcxproj
+*.fitlers
+
