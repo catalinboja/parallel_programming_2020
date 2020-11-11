@@ -361,5 +361,5 @@ bin/
 # Visual Studio
 *.sln
 *.vcxproj
-*.fitlers
+*.filters
 
